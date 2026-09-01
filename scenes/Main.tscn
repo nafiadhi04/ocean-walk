@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://nmyd1g6malld"]
+
+[ext_resource type="PackedScene" path="res://scenes/Ocean.tscn" id="1_ocean"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
+[ext_resource type="Script" uid="uid://bvgc8rwbtchq3" path="res://scripts/main.gd" id="3_main"]
+[ext_resource type="Script" uid="uid://c06hvdf3lshij" path="res://scripts/sky_manager.gd" id="4_sky"]
+[ext_resource type="Shader" uid="uid://hp4iwoxadf4l" path="res://shaders/sky_shader.gdshader" id="5_sky_shader"]
+[ext_resource type="Script" uid="uid://cpk7kpegaig5h" path="res://scripts/battle/BattleTestTrigger.gd" id="6_c01mt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
+shader = ExtResource("5_sky_shader")
+shader_parameter/time = 0.0
+shader_parameter/sky_color_zenith = Color(0.12, 0.42, 0.85, 1)
+shader_parameter/sky_color_horizon = Color(0.58, 0.80, 1.0, 1)
+shader_parameter/cloud_color_light = Color(1.0, 1.0, 1.0, 1)
+shader_parameter/cloud_color_shadow = Color(0.72, 0.78, 0.88, 1)
+shader_parameter/cloud_speed = 0.006
+shader_parameter/cloud_scale = 0.9
+shader_parameter/cloud_density = 0.42
+shader_parameter/cloud_softness = 0.75
+
+[sub_resource type="Sky" id="Sky_1"]
+sky_material = SubResource("ShaderMaterial_sky")
+
+[sub_resource type="Environment" id="Environment_1"]
+background_mode = 2
+sky = SubResource("Sky_1")
+ambient_light_source = 1
+ambient_light_color = Color(0.55, 0.75, 1.0, 1)
+ambient_light_sky_contribution = 0.0
+ambient_light_energy = 0.8
+tonemap_mode = 1
+fog_enabled = true
+fog_light_color = Color(0.55, 0.72, 0.95, 1)
+fog_light_energy = 0.6
+fog_density = 0.018
+fog_aerial_perspective = 0.5
+fog_sky_affect = 0.6
+fog_height = -0.5
+fog_height_density = 8.0
+
+[node name="Main" type="Node3D" unique_id=1993823283]
+script = ExtResource("3_main")
+
+[node name="Ocean" parent="." unique_id=770572961 instance=ExtResource("1_ocean")]
+
+[node name="Player" parent="." unique_id=378957969 instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+
+[node name="SkyManager" type="Node3D" parent="." unique_id=1765142613]
+script = ExtResource("4_sky")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=492859381]
+transform = Transform3D(0.857, -0.405, 0.32, 0, 0.62, 0.785, -0.515, -0.673, 0.532, 0, 30, 0)
+light_color = Color(1.0, 0.97, 0.88, 1)
+light_energy = 2.2
+light_indirect_energy = 1.5
+shadow_enabled = true
+directional_shadow_mode = 0
+directional_shadow_max_distance = 80.0
+
+[node name="FillLight" type="DirectionalLight3D" parent="." unique_id=1957217385]
+transform = Transform3D(-0.707, -0.1, 0.707, 0, 0.99, 0.14, -0.707, 0.1, -0.707, 0, 20, 0)
+light_color = Color(0.45, 0.65, 1.0, 1)
+light_energy = 0.4
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1078571638]
+environment = SubResource("Environment_1")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1844099505]
+volume_db = -8.0
+
+[node name="BattleTestTrigger" type="Node" parent="." unique_id=459151292]
+script = ExtResource("6_c01mt")

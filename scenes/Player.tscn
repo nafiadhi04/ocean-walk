@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://player_scene"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="2_camera"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
+radius = 0.3
+height = 1.8
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributes_1"]
+auto_exposure_enabled = true
+auto_exposure_min_sensitivity = 50.0
+auto_exposure_max_sensitivity = 800.0
+auto_exposure_speed = 0.5
+auto_exposure_target = 0.4
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_1")
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("2_camera")
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig"]
+fov = 75.0
+near = 0.05
+far = 800.0
+attributes = SubResource("CameraAttributes_1")
